@@ -1,0 +1,16 @@
+{
+	"name": "Yarn v3 plugins",
+	"description": "Some (or 1) plugins for yarn v3",
+	"main": "index.js",
+	"repository": "https://github.com/korbinancell/yarn-v3-plugins",
+	"author": "korbinancell",
+	"license": "MIT",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"devDependencies": {
+		"@yarnpkg/builder": "^3.1.0",
+		"typescript": "^4.5.4"
+	}
+}
