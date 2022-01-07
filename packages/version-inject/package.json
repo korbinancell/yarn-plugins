@@ -6,14 +6,12 @@
 	"repository": "https://github.com/korbinancell/yarn-v3-plugins",
 	"license": "MIT",
 	"dependencies": {
-		"@types/node": "^16.0.0",
-		"@yarnpkg/builder": "^3.1.0",
-		"@yarnpkg/cli": "^3.1.0",
-		"@yarnpkg/core": "^3.1.0",
-		"clipanion": "^3.0.1",
-		"typescript": "^4.4.2"
+		"@yarnpkg/core": "^3.1.0"
 	},
 	"scripts": {
-		"build": "builder build plugin"
+		"build": "yarn run build:plugin && yarn run build:bundle && yarn run build:clean",
+		"build:plugin": "builder build plugin",
+		"build:bundle": "move-cli bundles/@yarnpkg ../../bundles -md",
+		"build:clean": "del-cli bundles/"
 	}
 }

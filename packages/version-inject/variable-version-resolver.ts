@@ -1,31 +1,11 @@
-import {
-	ReportError,
-	MessageName,
-	Resolver,
-	ResolveOptions,
-	MinimalResolveOptions,
-	TAG_REGEXP,
-	DescriptorHash,
-	Hooks,
-} from '@yarnpkg/core';
+import { Resolver, ResolveOptions, MinimalResolveOptions, DescriptorHash } from '@yarnpkg/core';
 import { structUtils } from '@yarnpkg/core';
 import { Descriptor, Locator, Package } from '@yarnpkg/core';
-
-const varStart = '$(';
-const varRegex = /^\$\(.+?\)$/;
+import { getVersionTag, isVariableVersion } from './utils';
 
 export class VariableVersionResolver implements Resolver {
 	supportsDescriptor(descriptor: Descriptor, opts: MinimalResolveOptions): boolean {
-		if (!descriptor.range.startsWith(varStart)) {
-			console.log(descriptor.range);
-			return false;
-		}
-
-		if (!varRegex.test(descriptor.range)) {
-			return false;
-		}
-
-		return true;
+		return isVariableVersion(descriptor.range);
 	}
 
 	supportsLocator(locator: Locator, opts: MinimalResolveOptions): boolean {
@@ -37,7 +17,7 @@ export class VariableVersionResolver implements Resolver {
 	}
 
 	bindDescriptor(descriptor: Descriptor, fromLocator: Locator, opts: MinimalResolveOptions): Descriptor {
-		const versionTag = descriptor.range.slice(varStart.length, -1);
+		const versionTag = getVersionTag(descriptor.range);
 
 		const versionMap = opts.project.configuration.get('sharedVersions');
 		if (!versionMap) {
@@ -49,7 +29,7 @@ export class VariableVersionResolver implements Resolver {
 			throw new Error(`Missing property ${versionTag} in sharedVersions config.`);
 		}
 
-		return structUtils.makeDescriptor(structUtils.makeIdent(descriptor.scope, descriptor.name), `npm:${version}`);
+		return structUtils.makeDescriptor(structUtils.makeIdent(descriptor.scope, descriptor.name), version);
 	}
 
 	getResolutionDependencies(descriptor: Descriptor, opts: MinimalResolveOptions): Descriptor[] {

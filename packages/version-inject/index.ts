@@ -21,9 +21,6 @@ const plugin: Plugin = {
 	},
 	hooks: {
 		beforeWorkspacePacking,
-		afterAllInstalled: () => {
-			console.log(`What a great install, am I right?`);
-		},
 	},
 	resolvers: [VariableVersionResolver],
 };
