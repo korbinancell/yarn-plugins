@@ -13,7 +13,7 @@ Easily keep root and/or workspace dependencies on the same version.
 ## Installation
 
 ```bash
-yarn plugin import https://raw.githubusercontent.com/korbinancell/yarn-plugins/bundles/plugin-version-inject.js
+yarn plugin import https://raw.githubusercontent.com/korbinancell/yarn-plugins/main/bundles/plugin-version-inject.js
 ```
 
 ## Configuration
